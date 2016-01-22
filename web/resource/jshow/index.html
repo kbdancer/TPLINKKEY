@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+  <head>
+    <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Bootstrap 101 Template</title>
+
+    <!-- Bootstrap -->
+  <link href="css/bootstrap.css" rel="stylesheet" />
+  <!--  <link href="http://getbootstrap.com/2.3.2/assets/js/google-code-prettify/prettify.css" rel="stylesheet" /> -->
+  <link href="css/bootstrap-modal-bs3patch.css" rel="stylesheet" />
+  <link href="css/bootstrap-modal.css" rel="stylesheet" />
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="http://cdn.bootcss.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="http://cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <h1>你好，世界！</h1>
+
+	<!-- Button trigger modal -->
+	<button class="btn btn-primary btn-lg" data-toggle="modal" data-target="#responsive">
+	  Launch demo modal
+	</button>
+
+
+
+
+    <div id="responsive" class="modal fade" tabindex="-1" data-width="760" style="display: none;">
+		<div class="modal-header">
+		<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+		<h4 class="modal-title">Responsive</h4>
+		</div>
+		<div class="modal-body">
+		<div class="row">
+		<div class="col-md-6">
+		<h4>Some Input</h4>
+			<p><input class="form-control" type="text"></p>
+			<p><input class="form-control" type="text"></p>
+		</div>
+		<div class="col-md-6">
+			<h4>Some More Input</h4>
+			<p><input class="form-control" type="text"></p>
+			<p><input class="form-control" type="text"></p>
+			</div>
+		</div>
+		</div>
+		<div class="modal-footer">
+			<button type="button" data-dismiss="modal" class="btn btn-default">Close</button>
+			<button type="button" class="btn btn-primary">Save changes</button>
+		</div>
+    </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	<button class="btn btn-primary" id="gDialog-alert">调用gDialog的alert</button>
+	<button class="btn btn-primary" id="gDialog-confirm">调用gDialog的confirm</button>
+
+
+
+ 
+	 <br/>
+	 <br/>
+	  <p class="lead">以下调用均是ajax调用，窗口内容都不在本页中，如果打开为空，请使用IE浏览器，或者firefox浏览器查看（部分浏览器存在本地文件权限访问问题）</p>
+	 <a href="#nogo" id="openDialog" class="btn  btn-info">很简单的JS点击弹窗</a> 
+	
+	 <a href="#nogo" id="openManyDialog" class="btn  btn-info">弹多层窗口</a> 
+	
+	 
+		<hr/> 
+	 	 <br/> <br/>
+	 
+	 <a href="#nogo" id="openFormValidate" class="btn btn-primary">表单验证窗口</a> 
+	
+
+
+
+
+
+ <hr/>     
+	 <br/>
+	  <p class="lead">message_box.show(''), 显示你自己的提示消息！</p>
+	 	 <a href="#nogo"  class="btn btn-info" onclick="message_box.show('<h4>信息</h4>只是一个提示消息！','info');">信息提示</a> 
+	   <a href="#nogo"  class="btn btn-warning" onclick="message_box.show('<h4>警告</h4>只是一个提示消息！','warning');">警告提示 默认</a> 
+	 	 <a href="#nogo"  class="btn btn-success" onclick="message_box.show('<h4>成功</h4>只是一个提示消息！','success');">成功提示</a> 
+	 	 <a href="#nogo"  class="btn btn-danger" onclick="message_box.show('<h4>失败</h4>只是一个提示消息！','danger');">失败或错误提示</a> 
+  
+
+    <script src="js/jquery-1.7.2.js"></script>
+  <!--    <script type="text/javascript" src="http://getbootstrap.com/2.3.2/assets/js/google-code-prettify/prettify.js"></script> -->
+    <script src="js/bootstrap.js"></script>
+    <script src="js/bootstrap-modalmanager.js"></script>
+    <script src="js/bootstrap-modal.js"></script>
+	<script src="js/jquery.ui.draggable.js"></script>
+	<script src="js/modal.manager.plugin1.0.js"></script>
+	<script src="js/jshow.utils.js"></script>
+	<script src="js/form.validate.js"></script>
+
+  <!--	<script src="docs/js/doc.js"></script> -->
+
+	<script>
+	void function(j){
+
+	j("#gDialog-alert").click(function(){
+		gDialog.fAlert('你点击了alert按钮',function(){
+		    message_box.show('这是gDialog alert方法后的回调函数，也可以不要！','info');
+		});
+		
+	});
+	
+		j("#gDialog-confirm").click(function(){
+			gDialog.fConfirm('调用gDialog的确认窗口，哈哈','你确定执行这个操作么？',function(rs){
+				if(rs){
+					 message_box.show('你点击了确定按钮！','success');
+				}else{
+				  message_box.show('你取消了本次操作！','error');
+				}
+			});
+			
+		});
+
+
+		
+		j("#openDialog").click(function(){
+			gDialog.fCreate({title:'这是一个弹窗窗口',url:'myDialog.ahtml',width:700}).show();	
+		});
+
+		
+		j("#openManyDialog").click(function(){
+				gDialog.fCreate({title:'这是多层弹窗窗口',url:'manywindow.ahtml',width:700}).show();
+		});
+
+		j("#openFormValidate").click(function(){
+				gDialog.fCreate({title:'表单验证功能',url:'formValidate.ahtml',width:700}).show();
+		});
+
+
+		
+	}(jQuery);
+	</script>
+
+  </body>
+</html>

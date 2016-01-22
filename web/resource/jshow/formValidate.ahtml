@@ -1,0 +1,90 @@
+<div class="modal-body auto-height-body">
+	<form class="form-horizontal"  id="form1" role="form">
+	
+		 <div class="form-group">
+			<label class="col-sm-2 control-label" for="enname">字典选项值</label>
+			<div class="col-sm-10 controls">
+			
+				<input type="text" class="form-control"  name="dictElement.enname" id="enname" placeholder="请输入字典选项值" maxlength="20"/>
+				
+			</div>
+		</div>
+		
+		 <div class="form-group">
+			<label class="col-sm-2 control-label" for="cnname">选项显示值</label>
+			<div class="col-sm-10 controls">
+			
+				<input type="text" class="form-control" name="dictElement.cnname" id="cnname" placeholder="请输入选项显示值" maxlength="100"/>
+				
+			</div>
+		</div>
+		
+		 <div class="form-group">
+			<label class="col-sm-2 control-label" for="dictName">字典标示</label>
+			<div class="col-sm-10 controls">
+			
+				<input type="text" class="form-control"  name="dictElement.dictName" id="dictName" placeholder="请输入字典标示" maxlength="20"/>
+				
+			</div>
+		</div>
+		
+		 <div class="form-group">
+			<label class="col-sm-2 control-label" for="cssClass">选项样式</label>
+			<div class="col-sm-10 controls">
+			
+				<input type="text" class="form-control"  name="dictElement.cssClass" id="cssClass" placeholder="请输入选项样式" maxlength="100"/>
+				
+			</div>
+		</div>
+		
+		 <div class="form-group">
+			<label class="col-sm-2 control-label" for="parentId">父字典项id</label>
+			<div class="col-sm-10 controls">
+			
+				<input type="text" class="form-control"  name="dictElement.parentId" id="parentId" placeholder="请输入父字典项id" maxlength="2"/>
+				
+			</div>
+		</div>
+		
+		 <div class="form-group">
+			<label class="col-sm-2 control-label" for="orderNum">排序号</label>
+			<div class="col-sm-10 controls">
+			
+				<input type="text" class="form-control" name="dictElement.orderNum" id="orderNum" placeholder="请输入排序号" maxlength="10"/>
+				
+			</div>
+		</div>
+		
+
+	</form>
+</div>
+<div class="modal-footer">
+	<a href="javascript:;" class="btn btn-primary" id="btn_submit">保存</a>
+	<a href="javascript:;" class="btn  btn-default"  data-dismiss="modal" aria-hidden="true">关闭</a>
+</div>
+
+
+
+<script language="javascript">
+void function(j) {
+	var validateSet = {
+		 
+		 enname:  {must: true, maxlength:20,ftip:'英文名称,20字长，必输项'},
+		 cnname:  {must: true, maxlength:100,ftip:'中文名称,100字长，必输项'},
+		 dictName:  {must: true, maxlength:20,ftip:'字典名称,20字长，必输项'},
+		 cssClass:  {must: true, maxlength:100,ftip:'css名称,100字长，必输项'},
+		 parentId:  {must: true, maxlength:2,handler:'int',ftip:'整数，必输项'},
+		 orderNum:  {must: true, maxlength:10,handler:'int',ftip:'整数，必输项'}
+	};
+	
+
+	j('#btn_submit').click(function(e) {
+		if(form.validate(validateSet)){
+		  //提示消息框
+		   bootbox.alert('表单验证通过了，^_^！');
+		}
+	});
+	
+	form.friend.init(validateSet);
+}(jQuery);
+</script>

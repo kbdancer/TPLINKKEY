@@ -3,7 +3,7 @@
 # code by 92ez.com
 # python telnetkey.py 1.1.1.1-1.1.2.1 200
 
-from threading import Thread
+import threading
 import telnetlib
 import requests
 import Queue
@@ -33,8 +33,8 @@ def bThread(iplist):
     for host in hosts:
         queue.put([host,j])
         j += 1
-
-    threadl = [tThread(queue) for x in xrange(0, int(sys.argv[2]))]
+    for x in xrange(0, int(sys.argv[2])):
+        threadl.append(tThread(queue))
     for t in threadl:
         t.start()
     for t in threadl:
@@ -43,7 +43,7 @@ def bThread(iplist):
 #create thread
 class tThread(Thread):
     def __init__(self, queue):
-        Thread.__init__(self)
+        threading.Thread.__init__(self)
         self.queue = queue
 
     def run(self):

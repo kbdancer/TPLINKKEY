@@ -53,7 +53,9 @@ class tThread(threading.Thread):
                 getinfo(host)
             except Exception,e:
                 continue
+
 def killscan(signal,frame):
+    print '[*] will kill pid '+str(os.getpid())+'\n'
     os.kill(os.getpid(),9)
 
 def getinfo(hostinfo):
@@ -111,8 +113,8 @@ if __name__ == '__main__':
     global TOTALIP
     TOTALIP = len(iplist)
 
-    print '\n[Note] Total '+str(TOTALIP)+" IP...\n"
-    print '[Note] Running...\n'
+    print '\n[*] Total '+str(TOTALIP)+" IP..."
+    print '[*] Running...'
 
     signal.signal(signal.SIGINT,killscan)
     bThread(iplist)

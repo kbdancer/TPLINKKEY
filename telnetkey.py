@@ -5,7 +5,7 @@
 
 import threading
 import telnetlib
-import requests
+import signal
 import Queue
 import time
 import sys
@@ -41,7 +41,7 @@ def bThread(iplist):
         t.join()
 
 #create thread
-class tThread(Thread):
+class tThread(threading.Thread):
     def __init__(self, queue):
         threading.Thread.__init__(self)
         self.queue = queue
@@ -53,6 +53,8 @@ class tThread(Thread):
                 getinfo(host)
             except Exception,e:
                 continue
+def killscan(signal,frame):
+    os.kill(os.getpid(),9)
 
 def getinfo(hostinfo):
 
@@ -108,7 +110,9 @@ if __name__ == '__main__':
 
     global TOTALIP
     TOTALIP = len(iplist)
+
     print '\n[Note] Total '+str(TOTALIP)+" IP...\n"
     print '[Note] Running...\n'
 
+    signal.signal(signal.SIGINT,killscan)
     bThread(iplist)

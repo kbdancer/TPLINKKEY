@@ -1,0 +1,23 @@
+
+  <div class="modal-body">
+	<p>这是dialog的内容…</p>
+  </div>
+  <div class="modal-footer">
+	<a href="#" class="btn btn-default"  data-dismiss="modal" aria-hidden="true">关闭</a>
+	<a href="#" class="btn btn-primary">保存修改</a>
+	<a role="button" class="btn btn-default closeBtn">gDialog.fClose()关闭弹窗</a>
+  </div>
+	
+	<script>
+		void function(j){
+			j(".closeBtn").click(function(){
+			
+			
+			gDialog.fClose();
+			
+			
+			});
+			
+		}(jQuery);
+		
+		</script>

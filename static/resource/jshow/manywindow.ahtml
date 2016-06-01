@@ -1,0 +1,22 @@
+ <div class="modal-body">
+	<p>这是多层弹窗框，可以弹超级多层，你试试…</p>
+  </div>
+  <div class="modal-footer">
+	<a href="#" class="btn btn-default"  data-dismiss="modal" aria-hidden="true">关闭</a>
+	<a href="#" class="btn btn-primary" id="openDialog2">再打开一个弹窗</a>
+	<a role="button" class="btn btn-default" onclick="gDialog.fClose();">gDialog.fClose();方法关闭弹窗</a>
+  </div>
+	
+	<script>
+		void function(j){
+			j("#openDialog2").click(function(){
+			
+			
+				gDialog.fCreate({title:"第二个弹窗",url:'myDialog.ahtml'}).show();
+			
+			
+			});
+			
+		}(jQuery);
+		
+		</script>

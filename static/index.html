@@ -1,0 +1,62 @@
+$def with (urlbase)
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="description" content="">
+	<meta name="author" content="">
+	<title>Get wifi pwd by Telnet</title>
+	<link rel="stylesheet" href="$urlbase/resource/bootstrap/css/bootstrap.min.css">
+	<link rel="stylesheet" href="$urlbase/resource/jshow/css/bootstrap-modal-bs3patch.css">
+	<link rel="stylesheet" href="$urlbase/resource/jshow/css/bootstrap-modal.css">
+	<link rel="stylesheet" href="$urlbase/resource/css/cp.css">
+
+	<script type="text/javascript" src="$urlbase/resource/js/jquery.min.js"></script>
+	<script type="text/javascript" src="$urlbase/resource/bootstrap/js/bootstrap.min.js"></script>
+	<script type="text/javascript" src="$urlbase/resource/js/ie10-viewport-bug-workaround.js"></script>
+	<script type="text/javascript" src="$urlbase/resource/jshow/js/bootstrap-modalmanager.js"></script>
+	<script type="text/javascript" src="$urlbase/resource/jshow/js/bootstrap-modal.js"></script>
+	<script type="text/javascript" src="$urlbase/resource/jshow/js/modal.manager.plugin1.0.js"></script>
+	<script type="text/javascript" src="$urlbase/resource/jshow/js/jshow.utils.js"></script>
+	<script type="text/javascript" src="$urlbase/resource/jshow/js/form.validate.js"></script>
+	<script type="text/javascript" src="$urlbase/resource/js/common.js"></script>
+	<script type="text/javascript" src="$urlbase/resource/js/cp.js"></script>
+	<script type="text/javascript">var base_url_path = "$urlbase"</script>
+</head>
+<body>
+	<nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+		<div class="container">
+			<div class="navbar-header"><a class="navbar-brand" href="javascript:;">Get wifi pwd by Telnet</a></div>
+			<div id="navbar" class="navbar-collapse collapse">
+				<ul class="nav navbar-nav navbar-right">
+					<li><a href="javascript:;">ROOT</a></li>
+					<li><a href="javascript:;">关于</a></li>
+				</ul>
+			</div>
+		</div>
+	</nav>
+	<div class="container">
+		<div class="row">
+		  	<div class="col-xs-12">
+		  		<div class="panel panel-primary" id="wifiList">
+		  			<div class="panel-heading"><span class="glyphicon glyphicon-list-alt"></span> 扫描结果 <span class="pull-right" id="total_label"></span></div>
+				  	<div class="panel-body">
+				    	<table class="table table-bordered table-condensed" id="wifitable">
+				    		<thead>
+				    			<tr><th width="80">编号</th><th>IP地址</th><th>SSID</th><th>Wifi密码</th><th width="70">国家</th><th width="90">省份</th><th width="110">城市</th><th width="80">运营商</th><th width="180">扫描时间</th></tr>
+				    		</thead>
+				    		<tbody></tbody>
+				    	</table>
+				  	</div>
+				</div>
+				<div class="pagerOuter col-xs-12 clearfix">
+					<div class="col-xs-6"></div>
+					<div class="pageBox" id="wifilistpager"></div>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

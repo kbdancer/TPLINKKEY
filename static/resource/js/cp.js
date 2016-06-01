@@ -1,6 +1,6 @@
 $(document).ready(function() {
 	wifi.getlist(true);
-	// setInterval(function(){  wifi.getlist(false); },5000)
+	setInterval(function(){  wifi.getlist(false); },5000)
 });
 
 wifi = {

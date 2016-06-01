@@ -59,6 +59,9 @@ class queryWifi:
 
                 WifiStr.append({"id":this_id,"ip": this_host, "time": this_time, "mac": this_mac,"key": this_key, "ssid": this_ssid,"country":this_country,"province":this_province,"city":this_city,"isp":this_isp})
             
+            cu.close()
+            cx.close()
+            
             return json.dumps({"rows":WifiStr,"total":queryLength})
         
         except Exception, e:

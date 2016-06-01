@@ -111,7 +111,7 @@ def getinfo(host):
             #get SID KEY MAC
             ssid = wifiStr[1:wifiStr.find('QSS')]
             key = wifiStr[wifiStr.find('Key=') + 4:wifiStr.find('cmd')] if wifiStr.find('Key=') != -1 else '无密码'
-            mac = lanStr[1:lanStr.find('__')].replace('\n','')
+            mac = lanStr[1:lanStr.find('__')].replace('\r\n','')
 
             currentTime = time.strftime('%Y-%m-%d %H:%M:%S',time.localtime(time.time()))
 

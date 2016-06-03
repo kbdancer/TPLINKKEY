@@ -79,7 +79,7 @@ def getposition(host):
 def getinfo(host):
     username = "admin"
     password = "admin"
-    telnetTime = 10
+    telnetTime = 5
     cmdTime = 3
 
     try:
@@ -117,6 +117,7 @@ def getinfo(host):
 
             try:
                 cx = sqlite3.connect(sys.path[0]+"/TPLINKKEY.db")
+                cx.text_factory = str
                 cu = cx.cursor()
                 cu.execute("select * from scanlog where ssid='%s' and key='%s'" % (ssid,key))
                 if not cu.fetchone():

@@ -1,18 +1,18 @@
 #!/usr/bin/env python
 # coding=utf-8
 # code by 92ez.com
-# python telnetkey.py 1.1.1.1-1.1.2.1 200
+# python telnetkey.py 200 1.1.1.1-1.1.2.1
 
 from threading import Thread
 from telnetlib import Telnet
 import requests
 import sqlite3
-import signal
 import Queue
 import time
 import json
 import sys
 import re
+import os
 
 reload(sys)
 sys.setdefaultencoding('utf8')
@@ -37,10 +37,11 @@ def bThread(iplist):
     hosts = iplist
     for host in hosts:
         queue.put(host)
-    for x in xrange(0, int(sys.argv[2])):
+    for x in xrange(0, int(sys.argv[1])):
         threadl.append(tThread(queue))
     for t in threadl:
         try:
+            t.daemon = True
             t.start()
         except:
             pass
@@ -60,10 +61,6 @@ class tThread(Thread):
                 getinfo(host)
             except Exception,e:
                 continue
-
-def killscan(signal,frame):
-    print '[*] will kill pid '+str(os.getpid())+'\n'
-    os.kill(os.getpid(),9)
 
 def getposition(host):
     try:
@@ -144,12 +141,16 @@ if __name__ == '__main__':
     print '           Author 92ez.com'
     print '=========================================='
 
-    startIp = sys.argv[1].split('-')[0]
-    endIp = sys.argv[1].split('-')[1]
+    startIp = sys.argv[2].split('-')[0]
+    endIp = sys.argv[2].split('-')[1]
     iplist = ip_range(startIp, endIp)
+    thispid = os.getpid()
 
     print '\n[*] Total '+str(len(iplist))+" IP..."
     print '\n================ Running ================='
 
-    signal.signal(signal.SIGINT,killscan)
-    bThread(iplist)
+    try:
+        bThread(iplist)
+    except KeyboardInterrupt:
+        print '\n[*] Kill all thread.'
+        os.kill(thispid,9)

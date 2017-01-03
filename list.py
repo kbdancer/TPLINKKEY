@@ -18,9 +18,11 @@ urls = (
 # static
 render = web.template.render('static', cache=False)
 
+
 class index:
     def GET(self):
         return render.index("static")
+
 
 class queryWifi:
     def POST(self):
@@ -31,7 +33,7 @@ class queryWifi:
         queryLength = 0
 
         try:
-            cx = sqlite3.connect(sys.path[0]+"/TPLINKKEY.db")
+            cx = sqlite3.connect(sys.path[0] + "/TPLINKKEY.db")
             cu = cx.cursor()
             queryCount = cu.execute("SELECT count(id) FROM scanlog")
             queryLength = queryCount.fetchone()[0]
@@ -41,9 +43,9 @@ class queryWifi:
             print e
 
         try:
-            cx = sqlite3.connect(sys.path[0]+"/TPLINKKEY.db")
+            cx = sqlite3.connect(sys.path[0] + "/TPLINKKEY.db")
             cu = cx.cursor()
-            queryList = cu.execute("SELECT * FROM scanlog order by createtime desc limit %d,%d" % (limitCount,rows))
+            queryList = cu.execute("SELECT * FROM scanlog order by createtime desc limit %d,%d" % (limitCount, rows))
 
             for row in queryList.fetchall():
                 this_id = row[0]
@@ -57,15 +59,16 @@ class queryWifi:
                 this_isp = row[8]
                 this_time = row[9]
 
-                WifiStr.append({"id":this_id,"ip": this_host, "time": this_time, "mac": this_mac,"key": this_key, "ssid": this_ssid,"country":this_country,"province":this_province,"city":this_city,"isp":this_isp})
-            
+                WifiStr.append({"id": this_id, "ip": this_host, "time": this_time, "mac": this_mac, "key": this_key, "ssid": this_ssid, "country": this_country, "province": this_province, "city": this_city, "isp": this_isp})
+
             cu.close()
             cx.close()
-            
-            return json.dumps({"rows":WifiStr,"total":queryLength})
-        
+
+            return json.dumps({"rows": WifiStr, "total": queryLength})
+
         except Exception, e:
             print e
+
 
 if __name__ == '__main__':
     app = web.application(urls, globals())

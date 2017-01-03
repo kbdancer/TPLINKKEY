@@ -1,2 +1,6 @@
-# TPLINKKEY
-详细请参考 http://blog.92ez.com/projects/
+### 脚本
+根据之前乌云上的漏洞案例编写的一个TP-LINK系列路由器wifi密码自动扫描的脚本
+### 功能
+根据IP段自动扫描并存储到sqlite3数据库，使用Pyweb做展示界面
+### 说明
+使用此脚本之前你必须具备Python语言的基础知识

@@ -12,3 +12,5 @@ fixmac.py 用于修复之前IP数据库里面的一些mac地址问题（基本�
 list.py 用于web页面的展示（用法 python list.py 8080）
 
 telnetkey.py 主要扫描脚本
+### 推荐阅读
+http://www.92ez.com/index.php?action=show&id=49

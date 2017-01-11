@@ -1,0 +1,24 @@
+/*white-space: nowrap; overflow: hidden; -o-text-overflow: ellipsis;  text-overflow: ellipsis;*/
+
+body {height: auto;padding-top: 70px;}
+.container{width:1260px;}
+.panel-primary > .panel-heading{background-color:#333;border-color:#333;}
+.panel-body{border-radius:0 0 3px 3px;overflow: hidden;}
+
+#config,#wifiList{ box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);border: #ddd 1px solid;}
+
+#wifiList{height: auto;}
+#wifiList .panel-body{padding: 0;}
+#wifiList table{table-layout: fixed;text-align:center;margin-bottom: 0;}
+#wifiList table th{text-align: center;font-size: 12px;}
+#wifiList table td{ font-size: 12px;vertical-align: middle;word-break: break-all; word-wrap: break-word;}
+
+/*通用分页样式*/
+.pagerOuter{margin-top: 10px;padding: 0;}
+.pageBox{text-align: right;}
+.pageBox>div{width: 80px;margin: 0px 1px 0px 5px;}
+.pageBox>div.input-group>span.input-group-addon{padding: 0px 6px;height: 20px;border:#ccc 1px solid;border-left: none;color: #666; background-color:#f0f0f0;}
+.pageBox>div.input-group>input{ height: 26px; padding-left: 3px; border:#ccc 1px solid;border-right: none; padding-right: 3px; text-align: center; vertical-align: middle;display: inline-block;}
+.pageBox>button.btn{margin: 0 1px; padding: 3px 6px;  vertical-align: middle;border:#ccc 1px solid;color: #333;}
+.pageBox>button.btn>span{ font-size: 12px;  color: #333;}
+.pageBox>button.go{margin-right: 5px;}

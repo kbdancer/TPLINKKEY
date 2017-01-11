@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="description" content="">
+	<meta name="author" content="">
+	<title>TP_LINK 系列路由器WIFI密码展示系统</title>
+	<link rel="stylesheet" href="{{ url_for('static', filename='bootstrap/css/bootstrap.min.css') }}">
+	<link rel="stylesheet" href="{{ url_for('static', filename='jshow/css/bootstrap-modal-bs3patch.css') }}">
+	<link rel="stylesheet" href="{{ url_for('static', filename='jshow/css/bootstrap-modal.css') }}">
+	<link rel="stylesheet" href="{{ url_for('static', filename='css/cp.css') }}">
+
+	<script type="text/javascript" src="{{ url_for('static', filename='js/jquery.min.js') }}"></script>
+	<script type="text/javascript" src="{{ url_for('static', filename='bootstrap/js/bootstrap.min.js') }}"></script>
+	<script type="text/javascript" src="{{ url_for('static', filename='js/common.js') }}"></script>
+	<script type="text/javascript" src="{{ url_for('static', filename='js/cp.js') }}"></script>
+</head>
+<body>
+	<nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+		<div class="container">
+			<div class="navbar-header"><a class="navbar-brand" href="javascript:;">TP_LINK 系列路由器WIFI密码展示系统</a></div>
+			<div id="navbar" class="navbar-collapse collapse">
+				<ul class="nav navbar-nav navbar-right">
+					<li><a href="https://github.com/kbdancer/TPLINKKEY" target="_blank">Github</a></li>
+					<li><a href="http://www.92ez.com/index.php?action=show&id=49" target="_blank">博客</a></li>
+				</ul>
+			</div>
+		</div>
+	</nav>
+	<div class="container">
+		<div class="row">
+		  	<div class="col-xs-12">
+		  		<div class="panel panel-primary" id="wifiList">
+		  			<div class="panel-heading"><span class="glyphicon glyphicon-list-alt"></span> 扫描结果 <span class="pull-right" id="total_label"></span></div>
+				  	<div class="panel-body">
+				    	<table class="table table-bordered table-condensed" id="wifitable">
+				    		<thead>
+				    			<tr><th width="80">编号</th><th>IP地址</th><th>MAC地址</th><th>SSID</th><th>Wifi密码</th><th width="70">国家</th><th width="90">省份</th><th width="110">城市</th><th width="80">运营商</th><th width="180">扫描时间</th></tr>
+				    		</thead>
+				    		<tbody></tbody>
+				    	</table>
+				  	</div>
+				</div>
+				<div class="pagerOuter col-xs-12 clearfix">
+					<div class="col-xs-6"></div>
+					<div class="pageBox" id="wifilistpager"></div>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

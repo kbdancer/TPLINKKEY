@@ -72,7 +72,6 @@ def getposition(host):
         return info
     except Exception, e:
         print e
-        getposition(host)
 
 
 def getinfo(host):

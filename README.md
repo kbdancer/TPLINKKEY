@@ -16,3 +16,7 @@ scan.py 主要扫描脚本
 http://www.92ez.com/index.php?action=show&id=49
 ### 更新
 2017-01-11 使用 flask 重新改写WEB服务端
+### 效果
+![](https://raw.githubusercontent.com/kbdancer/TPLINKKEY/master/screencut/web.png)
+
+![](https://raw.githubusercontent.com/kbdancer/TPLINKKEY/master/screencut/terminator.png)

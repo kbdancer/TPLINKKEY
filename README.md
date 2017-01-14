@@ -7,8 +7,6 @@
 ### 文件
 TPLINKKEY.db 存刚了我已经扫描到的一些IP数据
 
-fixmac.py 用于修复之前IP数据库里面的一些mac地址问题（基本上用不到）
-
 list.py 用于web页面的展示（用法 python list.py）,默认使用127.0.0.1:5000作为web服务
 
 scan.py 主要扫描脚本

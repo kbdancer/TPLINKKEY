@@ -22,8 +22,7 @@ def ip2num(ip):
 
 
 def num2ip(num):
-    return '%s.%s.%s.%s' % (
-    (num & 0xff000000) >> 24, (num & 0x00ff0000) >> 16, (num & 0x0000ff00) >> 8, num & 0x000000ff)
+    return '%s.%s.%s.%s' % ((num & 0xff000000) >> 24, (num & 0x00ff0000) >> 16, (num & 0x0000ff00) >> 8, num & 0x000000ff)
 
 
 def ip_range(start, end):
@@ -121,9 +120,7 @@ def getinfo(host):
                     province = unicode(posData[1])
                     city = unicode(posData[2])
                     isp = unicode(posData[3])
-                    cu.execute(
-                        "INSERT INTO scanlog (host,mac,ssid,key,country,province,city,isp) VALUES (?,?,?,?,?,?,?,?)",
-                        (host, mac, ssid, key, country, province, city, isp))
+                    cu.execute("INSERT INTO scanlog (host,mac,ssid,key,country,province,city,isp) VALUES (?,?,?,?,?,?,?,?)", (host, mac, ssid, key, country, province, city, isp))
                     cx.commit()
                     print '[√] [' + currentTime + '] Found ' + host + '  ' + ssid + '  ' + key + ' => Inserted!'
                 else:

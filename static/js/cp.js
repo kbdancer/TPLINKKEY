@@ -8,7 +8,7 @@ wifi = {
 		var rows = 20,getPage = $("#wifilistpager").find("input").val(), page = (initPager ? 1:getPage),param;
 
 		param = {"page":page,"rows":rows};
-		$.post("/getWifi", param, function(data, textStatus, xhr) {
+		$.post("/get_wifi", param, function(data, textStatus, xhr) {
 			var rowLen = data.rows.length,listObjectBox = $("#wifitable").find('tbody');
 			listObjectBox.empty();
 

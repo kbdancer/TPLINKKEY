@@ -25,12 +25,12 @@ if (empty($email)){
 }else if(empty($userkey)){
     echo json_encode(array("code"=>-1,"msg"=>"key 不能为空"));
 }else{
-    $sql_check_email = "SELECT userkey FROM accesskey WHERE email = ? and userkey = ?";
+    $sql_check_email = "SELECT userkey FROM accesskey WHERE email = ? and userkey = ? and checked=1";
     $stmt = $dbh->prepare($sql_check_email);
     $check_email = $stmt->execute(array($email, $userkey));
     $key_result = $stmt->fetch();
     if($key_result){
-        $query_same = 'SELECT id FROM scanlog WHERE mac = ? and ssid = ? and wifikey = ? and checked=1';
+        $query_same = 'SELECT id FROM scanlog WHERE mac = ? and ssid = ? and wifikey = ?';
         $stmt = $dbh->prepare($query_same);
         $check_same = $stmt->execute(array($mac, $ssid, $wifikey));
         $same_id = $stmt->fetch();

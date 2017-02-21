@@ -7,7 +7,7 @@
 ### 文件
 local 目录下存放本地扫描文件
 
-local/TPLINKKEY.db 存刚了我已经扫描到的一些IP数据
+local/TPLINKKEY.db 存放了我已经扫描到的一些IP数据
 
 local/list.py 用于web页面的展示（用法 python list.py）,默认使用127.0.0.1:5000作为web服务
 

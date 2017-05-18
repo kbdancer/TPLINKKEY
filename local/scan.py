@@ -155,7 +155,7 @@ def getinfo(host):
 
                     insert_info = """INSERT INTO scanlog (`host`,`mac`,`ssid`,`wifikey`,`country`,`province`,`city`,`isp`) VALUES (?,?,?,?,?,?,?,?)"""
 
-                    my_sqlite_db.insert(insert_info, (host, router_mac, wifi_ssid, wifi_key, country, province, city, isp))
+                    my_sqlite_db.insert(insert_info, [host, router_mac, wifi_ssid, wifi_key, country, province, city, isp])
                     print '[√] [%s] Info %s  %s  %s => Inserted!' % (current_time, host, wifi_ssid, wifi_key)
                 else:
                     print '[x] [%s] Found %s  %s  %s in DB, do nothing!' % (current_time, host, wifi_ssid, wifi_key)

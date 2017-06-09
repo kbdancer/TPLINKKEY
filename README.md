@@ -30,7 +30,7 @@ remote/scan_remote.py 主要扫描脚本，数据直接存储到远程服务器
 生成一个合法的key，GET请求 http://xxx.com/accesskey.php?email=1@q.com 即可获得一个key，key的作用主要用于提交数据时候的凭证，如果忘记了key，只需要再次请求这个地址，email填写原来的即可获取对应的key，email不存在的时候则会生成新的key
 > 注意：这里的key默认设置为不需要审核即可用，相关字段在数据库中有设置，如果需要设置每个key的限额，可以增加字段并且在php中修改部分代码，如果需要设置key生成成功之后默认为未审核不可用状态则只需要修改accesskey.php中的sql语句checked值。
 
-####0x01
+#### 0x01
 
 存储数据使用POST方式，数据格式为{"email":"1@q.com","key":"asd654as6d5762376xdas","host":"......"},后端处理先验证key和email是否存在并且状态为可用的时候才允许存入数据。
 

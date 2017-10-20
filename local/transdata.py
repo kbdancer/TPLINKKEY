@@ -6,9 +6,6 @@ import sqlite3
 import json
 import sys
 
-reload(sys)
-sys.setdefaultencoding('utf8')
-
 
 class Database:
     db = sys.path[0] + "/TPLINKKEY.db"
@@ -69,8 +66,8 @@ def query_all_data():
 
             save_data_to_server(wifi_data)
 
-    except Exception, e:
-        print e
+    except Exception as e:
+        print(e)
 
 
 def save_data_to_server(wifi_data):
@@ -78,10 +75,10 @@ def save_data_to_server(wifi_data):
     try:
         save_result = json.loads(requests.post(url=save_url, data=wifi_data).text)
         if save_result['code'] != 0:
-            print save_result['msg']
+            print(save_result['msg'])
         else:
-            print save_result['msg']
-    except Exception, e:
+            print(save_result['msg'])
+    except Exception as e:
         save_data_to_server(wifi_data)
 
 if __name__ == '__main__':

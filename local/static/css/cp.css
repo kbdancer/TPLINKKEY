@@ -14,7 +14,7 @@ body {height: auto;padding-top: 70px;}
 #wifiList table td{ font-size: 12px;vertical-align: middle;word-break: break-all; word-wrap: break-word;}
 
 /*通用分页样式*/
-.pagerOuter{margin-top: 10px;padding: 0;}
+.pagerOuter{margin-top: 10px;padding: 0;margin-bottom: 20px;}
 .pageBox{text-align: right;}
 .pageBox>div{width: 80px;margin: 0px 1px 0px 5px;}
 .pageBox>div.input-group>span.input-group-addon{padding: 0px 6px;height: 20px;border:#ccc 1px solid;border-left: none;color: #666; background-color:#f0f0f0;}

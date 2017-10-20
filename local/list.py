@@ -6,11 +6,10 @@ import sqlite3
 import json
 import sys
 
-reload(sys)
-sys.setdefaultencoding('utf8')
-
 
 app = Flask(__name__)
+app.jinja_env.variable_start_string = '{{ '
+app.jinja_env.variable_end_string = ' }}'
 
 
 class Database:
@@ -62,8 +61,8 @@ def get_wifi():
     try:
         query_length_sql = "SELECT count(id) FROM scanlog"
         query_length = my_sqlite_db.query(query_length_sql, [])[0][0]
-    except Exception, e:
-        print e
+    except Exception as e:
+        print(e)
 
     try:
         query_by_sql = 'SELECT * FROM scanlog order by createtime desc limit ?,?'
@@ -84,14 +83,14 @@ def get_wifi():
             wifi_info.append({
                 "id": this_id, "ip": this_host, "time": this_time,
                 "mac": this_mac, "key": this_key, "ssid": this_ssid,
-                 "country": this_country, "province": this_province,
+                "country": this_country, "province": this_province,
                 "city": this_city, "isp": this_isp
             })
 
         return json.dumps({"rows": wifi_info, "total": query_length})
 
-    except Exception, e:
-        print e
+    except Exception as e:
+        print(e)
 
 
 if __name__ == '__main__':

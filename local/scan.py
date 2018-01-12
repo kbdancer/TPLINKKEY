@@ -162,12 +162,10 @@ def getinfo(host):
 
 if __name__ == '__main__':
     
-    print(
-        '==========================================\n'
-        'Scan TPLINK(MERCURY) wifi key by telnet\n'
-        'Author 92ez.com\n'
-        '=========================================='
-    )
+    print('==========================================')
+    print(' Scan TPLINK(MERCURY) wifi key by telnet')
+    print('           Author 92ez.com')
+    print('==========================================')
 
     SET_THREAD = int(sys.argv[1])
     begin_ip = sys.argv[2].split('-')[0]
@@ -175,7 +173,7 @@ if __name__ == '__main__':
     ip_list = ip_range(begin_ip, end_ip)
     current_pid = os.getpid()
 
-    print('\n[*] Total ' + str(len(ip_list)) + " IP...")
+    print('\n[*] Total %d IP...' % len(ip_list))
     print('\n================ Running =================')
 
     try:

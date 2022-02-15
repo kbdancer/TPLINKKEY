@@ -15,7 +15,7 @@ scan.py 主要扫描脚本，数据存储在本地sqlite数据库
 ### 使用方法
 #### 扫描
 
-python3 scan.py 起始IP-结束IP
+python3 scan.py 100 起始IP-结束IP
 
 #### 展示
 

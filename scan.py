@@ -86,7 +86,7 @@ class tThread(Thread):
         while not self.queue.empty():
             host = self.queue.get()
             try:
-                getinfo(host)
+                get_info(host)
             except Exception as e:
                 print(e)
                 continue
@@ -103,7 +103,7 @@ def get_position_by_ip(host):
         print(e)
 
 
-def getinfo(host):
+def get_info(host):
     username = "admin"
     password = "admin"
     telnet_timeout = 15
@@ -159,7 +159,7 @@ def getinfo(host):
             except Exception as e:
                 print(e)
     except Exception as e:
-        print(e)
+        pass
 
 
 if __name__ == '__main__':
@@ -169,7 +169,6 @@ if __name__ == '__main__':
     print('           Author 92ez.com')
     print('==========================================')
 
-    SET_THREAD = int(sys.argv[1])
     begin_ip = sys.argv[2].split('-')[0]
     end_ip = sys.argv[2].split('-')[1]
     ip_list = ip_range(begin_ip, end_ip)

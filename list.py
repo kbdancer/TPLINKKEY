@@ -12,7 +12,7 @@ app.jinja_env.variable_end_string = ' }}'
 
 
 class Database:
-    db = sys.path[0] + "/TPLINKKEY.db"
+    db = sys.path[0] + "/TPLINK_KEY.db"
     charset = 'utf8'
 
     def __init__(self):
@@ -24,14 +24,16 @@ class Database:
         try:
             self.cursor.execute(query, params)
             self.connection.commit()
-        except:
+        except Exception as e:
+            print(e)
             self.connection.rollback()
 
     def update(self, query, params):
         try:
             self.cursor.execute(query, params)
             self.connection.commit()
-        except:
+        except Exception as e:
+            print(e)
             self.connection.rollback()
 
     def query(self, query, params):
@@ -64,26 +66,15 @@ def get_wifi():
         print(e)
 
     try:
-        query_by_sql = 'SELECT * FROM scanlog order by createtime desc limit ?,?'
+        query_by_sql = "SELECT * FROM scanlog order by createtime desc limit ?,?"
         query_list = my_sqlite_db.query(query_by_sql, [limit_count, rows])
 
         for row in query_list:
-            this_id = row[0]
-            this_host = row[1]
-            this_mac = row[2]
-            this_ssid = row[3]
-            this_key = row[4]
-            this_country = row[5]
-            this_province = row[6]
-            this_city = row[7]
-            this_isp = row[8]
-            this_time = row[9]
-
             wifi_info.append({
-                "id": this_id, "ip": this_host, "time": this_time,
-                "mac": this_mac, "key": this_key, "ssid": this_ssid,
-                "country": this_country, "province": this_province,
-                "city": this_city, "isp": this_isp
+                "id": row[0], "ip": row[1], "time": row[9],
+                "mac": row[2], "key": row[4], "ssid": row[3],
+                "country": row[5], "province": row[6],
+                "city": row[7], "isp": row[8]
             })
 
         return json.dumps({"rows": wifi_info, "total": query_length})

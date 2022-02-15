@@ -27,7 +27,7 @@ def ip_range(start, end):
 
 
 class Database:
-    db = sys.path[0] + "/TPLINKKEY.db"
+    db = sys.path[0] + "/TPLINK_KEY.db"
     charset = 'utf8'
 
     def __init__(self):
@@ -39,14 +39,16 @@ class Database:
         try:
             self.cursor.execute(query, params)
             self.connection.commit()
-        except:
+        except Exception as e:
+            print(e)
             self.connection.rollback()
 
     def update(self, query, params):
         try:
             self.cursor.execute(query, params)
             self.connection.commit()
-        except:
+        except Exception as e:
+            print(e)
             self.connection.rollback()
 
     def query(self, query, params):
@@ -70,8 +72,8 @@ def b_thread(ip_address_list):
         try:
             t.daemon = True
             t.start()
-        except:
-            pass
+        except Exception as e:
+            print(e)
     for t in thread_list:
         t.join()
 
@@ -87,15 +89,16 @@ class tThread(Thread):
             try:
                 getinfo(host)
             except Exception as e:
+                print(e)
                 continue
 
 
 def get_position_by_ip(host):
     try:
-        ip_url = "http://ip.taobao.com/service/getIpInfo.php?ip=%s" % host
+        ip_url = "http://ip-api.com/json/{ip}?lang=zh-CN".format(ip=host)
         header = {"User-Agent": "Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101 Firefox/45.0"}
-        json_data = json.loads(requests.get(url=ip_url, headers=header, timeout=5).text)['data']
-        info = [json_data['country'], json_data['region'], json_data['city'], json_data['isp']]
+        json_data = requests.get(url=ip_url, headers=header, timeout=10).json()
+        info = [json_data.get("country"), json_data.get('regionName'), json_data.get('city'), json_data.get('isp')]
         return info
     except Exception as e:
         print(e)
@@ -156,8 +159,8 @@ def getinfo(host):
                     print('[x] [%s] Found %s  %s  %s in DB, do nothing!' % (current_time, host, wifi_ssid, wifi_key))
             except Exception as e:
                 print(e)
-    except:
-        pass
+    except Exception as e:
+        print(e)
 
 
 if __name__ == '__main__':

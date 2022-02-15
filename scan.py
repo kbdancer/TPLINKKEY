@@ -8,7 +8,6 @@ import requests
 import sqlite3
 import queue
 import time
-import json
 import sys
 import os
 
@@ -79,9 +78,9 @@ def b_thread(ip_address_list):
 
 
 class tThread(Thread):
-    def __init__(self, queue):
+    def __init__(self, queue_obj):
         Thread.__init__(self)
-        self.queue = queue
+        self.queue = queue_obj
 
     def run(self):
         while not self.queue.empty():

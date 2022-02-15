@@ -139,8 +139,8 @@ def get_info(host):
 
             try:
                 my_sqlite_db = Database()
-                query_info = """select * from scanlog where ssid=? and key=?"""
-                query_result = my_sqlite_db.query(query_info, [wifi_ssid, wifi_key])
+                query_info = """select * from scanlog where ssid=? and key=? and mac=?"""
+                query_result = my_sqlite_db.query(query_info, [wifi_ssid, wifi_key, router_mac])
 
                 if len(query_result) < 1:
 
